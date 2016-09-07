@@ -6,18 +6,17 @@ import signal
 import argparse
 
 from gi.repository import Gtk, GObject
-from gi.repository import AppIndicator3 as Appindicator
 
 import somebar_icons
+
 
 class Indicator:
     def __init__(self, root):
         self.app = root
-        self.ind = Appindicator.Indicator.new(
-                                self.app.name,
-                                '',
-                                Appindicator.IndicatorCategory.APPLICATION_STATUS)
-        self.ind.set_status (Appindicator.IndicatorStatus.ACTIVE)
+        self.statusIcon = Gtk.StatusIcon()
+        self.statusIcon.set_visible(True)
+        self.statusIcon.connect('popup-menu', self.right_click_event_statusicon)
+
 
         self.set_icon('white')
 
@@ -32,7 +31,9 @@ class Indicator:
         self.menu.append(item)
 
         self.menu.show_all()
-        self.ind.set_menu(self.menu)
+
+    def right_click_event_statusicon(self, icon, button, time):
+        self.menu.popup(None, None, None, icon, button, time)
 
     def set_icon(self, name):
         ICONS_PATH = somebar_icons.__path__[0]
@@ -52,10 +53,10 @@ class Indicator:
                     ):
 
             if os.path.isfile(fname):
-                self.ind.set_icon(fname)
+                self.statusIcon.set_from_file(fname)
                 return
 
-        self.ind.set_icon(os.path.abspath(os.path.join(ICONS_PATH, 'white_alt@2x.png')))
+        self.statusIcon.set_from_file(os.path.abspath(os.path.join(ICONS_PATH, 'white_alt@2x.png')))
 
     def cb_exit(self, w, data):
         Gtk.main_quit()
