@@ -4,6 +4,8 @@ Original repo: [limpbrains/somebar](https://github.com/limpbrains/somebar)
 
 This fork was tested on Ubuntu 15.10 GNOME Shell v3.16.4
 
+<img src="screenshot2.png?raw=true" />
+
 # SomeBar
 
 Simple taskbar indicator for Unity inspired by [AnyBar](https://github.com/tonsky/AnyBar) (basically it is a clone of AnyBar)
